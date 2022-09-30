@@ -1,0 +1,19 @@
+input {
+  padding: 5px 10px !important;
+}
+.form-control {
+  font-size: 15px !important;
+  height: 30px !important;
+}
+
+#topnav .navigation-menu > li > a {
+  color: #0dcaf0 !important;
+  font-size: 14px !important;
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.menu-extras .menu-item .cart > a,
+.menu-extras .menu-item .search > a {
+  color: black;
+}

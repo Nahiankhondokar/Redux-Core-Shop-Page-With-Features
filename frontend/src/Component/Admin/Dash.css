@@ -1,0 +1,10 @@
+.dash-menu ul li a {
+    display: block;
+    padding: 7px 7px;
+    font-size: 16px;
+    text-decoration: none;
+    color: black;
+    border: 1px solid #e9e9e9;
+    font-weight: 500;
+}
+
