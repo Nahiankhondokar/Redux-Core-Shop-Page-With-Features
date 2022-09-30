@@ -19,10 +19,8 @@ p {
   font-weight: bold;
 }
 
-input {
-  padding: 5px 10px !important;
-}
 .form-control {
+  padding: 0px 10px !important;
   font-size: 15px !important;
   height: 30px !important;
 }

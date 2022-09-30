@@ -23,6 +23,7 @@ const AddProduct = () => {
     photo : ''
   });
 
+  console.log(inputData);
 
   // hanlde input data 
   const handleInputData = (e) => {
@@ -34,6 +35,32 @@ const AddProduct = () => {
 
   }
 
+  // handle tag input data
+  const handleTags = (e) => {
+
+    if(e.target.checked){
+      let tags = inputData.tag;
+      tags.push(e.target.value);
+      
+      setInputData({
+        ...inputData,
+        tag : tags
+      });
+
+    }else {
+      
+      let tag = inputData.tag;
+      let newTag = tag.filter(item => item !== e.target.value);
+
+      setInputData((prev) => ({
+        ...prev,
+        tag : newTag
+      }));
+
+    }
+
+  }
+
   // product from submit
   const handleFromSubmit = (e) => {
     e.preventDefault();
@@ -42,7 +69,10 @@ const AddProduct = () => {
     axios.post('http://localhost:5050/api/v1/product', inputData)
     .then(data => {
 
-      successToaster('Product Added Succssful')
+      // alert msg
+      successToaster('Product Added Succssful');
+
+      // empty feild
       setInputData({
         name : '',
         regular_price : '',
@@ -54,8 +84,7 @@ const AddProduct = () => {
         gallery : [],
         photo : ''
       })
-
-      setInputData.reset();
+      e.target.reset();
 
     });
 
@@ -116,7 +145,7 @@ const AddProduct = () => {
                     </Form.Group>
                     <Form.Group>
                         <Form.Label>Product Rating</Form.Label>
-                        <select className='form-control' name="rating" value={ inputData.rating } onChange={ handleInputData } >
+                        <select className='form-control' style={{ color : 'blue' }} name="rating" value={ inputData.rating } onChange={ handleInputData } >
                             <option value=""> -select- </option>
                             <option value="1"> 1 Start </option>
                             <option value="2"> 2 Start </option>
@@ -128,26 +157,26 @@ const AddProduct = () => {
                     <Form.Group>
                         <Form.Label>Categroy</Form.Label>
                         <select className='form-control' name="category" value={ inputData.category } onChange={ handleInputData } >
-                            <option value="" disabled> -select- </option>
+                            <option value=""> -select- </option>
                             {
                               allCat.map((data, key) => 
-                                <option value={ data._id }> { data.name } </option>
+                                <option style={{ color : 'black' }} value={ data._id }> { data.name } </option>
                               )
                             }
                         </select>
                     </Form.Group>
                     <Form.Group>
                         <Form.Label>Tag</Form.Label>
-                        <select  className='form-control' name="tag" value={ inputData.tag } onChange={ handleInputData } >
-                          <option value="" disabled> -select- </option>
+                        <br />
 
-                          {
-                            allTag.map((data, key) => 
-                              <option value={ data._id }> { data.name } </option>
-                            )
-                          }
-                           
-                        </select>
+                        {
+                          allTag.map((data, key) => 
+                            <>
+                            <input type="checkbox" id={data.name} value={data.name} onChange={handleTags} /> <label htmlFor={data.name}>{ data.name }</label> &nbsp;
+                            </>
+                          )
+                        }
+
                     </Form.Group>
                     <Form.Group>
                         <Form.Label>Feature Photo</Form.Label>
