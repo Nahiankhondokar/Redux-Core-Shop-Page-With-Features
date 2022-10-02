@@ -22,16 +22,15 @@ const ProductSchema = mongoose.Schema({
         type : Number,
     },
     photo : {
-        type : String,
-    },
-    gallery : {
         type : Array,
+        default : []
     },
     category : {
-        type : Array,
+        type : String,
     },
-    tag : {
+    tags : {
         type : Array,
+        default : []
     }
 }, {
     timestamps : true

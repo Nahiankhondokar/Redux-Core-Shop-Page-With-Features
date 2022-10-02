@@ -41,7 +41,11 @@ export const getAllProduct = async (req, res, next) => {
     
     try {
         
-        await Product.create(req.body);
+        console.log(req.body);
+        await Product.create({
+            ...req.body, 
+            photo : req.file.filename
+        });
 
         res.status(200).json({
             message : "Product Created"

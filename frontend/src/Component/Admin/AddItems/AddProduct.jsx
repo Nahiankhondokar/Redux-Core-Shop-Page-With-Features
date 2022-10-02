@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Card, Table, Button, Container, Row, Col, Form } from 'react-bootstrap';
+import { Card, Button, Container, Row, Col, Form } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { successToaster } from '../../Toaster/Toaster';
 
@@ -17,13 +17,11 @@ const AddProduct = () => {
     sale_price : '',
     stock : '',
     rating : '',
-    category : [],
-    tag : [],
-    gallery : [],
-    photo : ''
+    category : '',
+    tags : [],
+    photo : []
   });
 
-  console.log(inputData);
 
   // hanlde input data 
   const handleInputData = (e) => {
@@ -39,34 +37,61 @@ const AddProduct = () => {
   const handleTags = (e) => {
 
     if(e.target.checked){
-      let tags = inputData.tag;
+      let tags = inputData.tags;
       tags.push(e.target.value);
       
       setInputData({
         ...inputData,
-        tag : tags
+        tags : tags
       });
 
     }else {
       
-      let tag = inputData.tag;
+      let tag = inputData.tags;
       let newTag = tag.filter(item => item !== e.target.value);
 
       setInputData((prev) => ({
         ...prev,
-        tag : newTag
+        tags : newTag
       }));
 
     }
 
   }
 
+
+
+  // get photo
+  const handlePhotoUpload = (e) => {
+
+    setInputData((prev) => ({
+      ...prev,
+      photo : e.target.files[0]
+    }));
+
+  }
+
   // product from submit
-  const handleFromSubmit = (e) => {
+  const handleFromSubmit = async (e) => {
     e.preventDefault();
 
-    // get categorys
-    axios.post('http://localhost:5050/api/v1/product', inputData)
+
+
+    // from data submit by new FormData object for photo upload
+    const data = new FormData();
+    data.append('name', inputData.name);
+    data.append('regular_price', inputData.regular_price);
+    data.append('sale_price', inputData.sale_price);
+    data.append('stock', inputData.stock);
+    data.append('rating', inputData.rating);
+    data.append('category', inputData.category);
+    data.append('tags', inputData.tags);
+    data.append('photo', inputData.photo);
+
+    // console.log(data);
+
+    // add product
+    await axios.post('http://localhost:5050/api/v1/product', data)
     .then(data => {
 
       // alert msg
@@ -79,10 +104,9 @@ const AddProduct = () => {
         sale_price : '',
         stock : '',
         rating : '',
-        category : [],
-        tag : [],
-        gallery : [],
-        photo : ''
+        tags : [], 
+        category : '',
+        photo : []
       })
       e.target.reset();
 
@@ -124,7 +148,7 @@ const AddProduct = () => {
             <Card className='shadow p-3'>
               <div className="addCat">
                 <h3 className='mt-2 text-center'>Add Product</h3>
-                  <Form onSubmit={ handleFromSubmit } method='POST'>
+                  <Form onSubmit={ handleFromSubmit } method='POST' encType='multipart/form-data'>
               
                     <Form.Group>
                         <Form.Label>Product Name</Form.Label>
@@ -180,7 +204,7 @@ const AddProduct = () => {
                     </Form.Group>
                     <Form.Group>
                         <Form.Label>Feature Photo</Form.Label>
-                        <Form.Control type='file' name='photo' value=''></Form.Control>
+                        <Form.Control type='file' name='photo' onChange={ handlePhotoUpload }></Form.Control>
                     </Form.Group>
                     <Form.Group>
                         <Form.Label>Gallery Photo</Form.Label>

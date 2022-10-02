@@ -1,4 +1,6 @@
 import express from 'express';
+import multer from 'multer';
+import path, { resolve } from 'path';
 import { createProduct, getAllProduct, getSingleProduct, productDelete, productUpdate } from '../controllers/productController.js';
 
 
@@ -6,11 +8,32 @@ import { createProduct, getAllProduct, getSingleProduct, productDelete, productU
 // initialize 
 const router = express.Router();
 
+// __dirname resolve
+const __dirname = resolve();
+
+
+// multer set-up
+const storage = multer.diskStorage({
+    filename : (req, file, cb) => {
+        cb(null, Date.now()+'_'+file.originalname);
+        console.log(file);
+    },
+    destination : (req, file, cb) => { 
+        cb(null, path.join(__dirname, '/api/public/image/product/'));
+    }
+});
+
+const productMulter = multer({
+    storage
+}).single('photo');
 
 
 // Product routes
-router.route('/').get(getAllProduct).post(createProduct);
-router.route('/:id').get(getSingleProduct).put(productUpdate).delete(productDelete);
+router.get('/', getAllProduct);
+router.post('/', productMulter, createProduct);
+router.get('/:id', getSingleProduct);
+router.put('/:id',productUpdate);
+router.delete('/:id',productDelete);
 
 
 
