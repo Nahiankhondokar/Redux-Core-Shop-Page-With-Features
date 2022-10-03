@@ -3,9 +3,13 @@ import Skeleton from 'react-loading-skeleton';
 import { Link } from 'react-router-dom';
 import LeftSidebar from '../Partials/LeftSidebar';
 import product from "./../../_assets/images/shop/1.jpg";
+import { useSelector } from 'react-redux';
 
 const Shop = () => {
 
+
+  // get all product from redux
+  const { products } = useSelector(state => state.all_product);
   
   return (
     <>
@@ -25,49 +29,35 @@ const Shop = () => {
               <div className="row">
 
                 
-                <div className="col-md-4 col-sm-6">
-                  <div className="shop-product shadow">
-                    <div className="product-thumb">
-                      <Link to={ `/shop/` }>
-                        <img src={ product } alt="" />
-                      </Link>
-                      <div className="product-overlay">
-                        <a href="#" className="btn btn-color-out btn-sm">Add To Cart<i className="ti-bag"></i></a>
+                {
+                  products.map((value, key) => 
+                  
+                  <div className="col-md-4 col-sm-6">
+                    <div className="shop-product shadow">
+                      <div className="product-thumb">
+                        <Link to={ `/shop/` }>
+                          <img style={{ height : '250px', width : '100%', objectFit : 'cover'}} src={ `http://localhost:5050/image/product/${ value.photo }` } alt="" />
+                        </Link>
+                        <div className="product-overlay">
+                          <a href="#" className="btn btn-color-out btn-sm">Add To Cart<i className="ti-bag"></i></a>
+                        </div>
                       </div>
-                    </div>
-                    <div className="product-info p-3">
-                      <h4 className="upper"><a href="#">Shart</a></h4>
+                      <div className="product-info p-3">
+                        <h4 className="upper"><a href="#">{ value.name }</a></h4>
 
-                        <span><b>$4343 </b></span>
-                          <span><del>$545</del></span>
+                          <span><b>${ value.regular_price } </b></span>
+                            <span><del>${ value.sale_price }</del></span>
 
-                      <div className="save-product"><a href="#"><i className="icon-heart"></i></a>
+                        <div className="save-product"><a href="#"><i className="icon-heart"></i></a>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
+                  
+                  )
+                }
+
                 
-                <div className="col-md-4 col-sm-6">
-                  <div className="shop-product shadow">
-                    <div className="product-thumb">
-                      <Link to={ `/shop/` }>
-                        <img src={ product } alt="" />
-                      </Link>
-                      <div className="product-overlay">
-                        <a href="#" className="btn btn-color-out btn-sm">Add To Cart<i className="ti-bag"></i></a>
-                      </div>
-                    </div>
-                    <div className="product-info p-3">
-                      <h4 className="upper"><a href="#">Shart</a></h4>
-
-                        <span><b>$4343 </b></span>
-                          <span><del>$545</del></span>
-
-                      <div className="save-product"><a href="#"><i className="icon-heart"></i></a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
                   
                   
                   {/* <>
