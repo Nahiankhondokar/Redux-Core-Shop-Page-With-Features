@@ -2,10 +2,19 @@ import React, { useEffect, useState } from 'react';
 import { Card, Table, Button, Container, Row, Col, Form } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { useSelector } from 'react-redux';
+import { GrView, GrEdit } from "react-icons/gr";
+import { AiFillDelete } from "react-icons/ai";
 
 const Product = () => {
 
 
+  // user selector
+  const { products } = useSelector(state => state.all_product);
+  // get category data from redux
+  const { categories } = useSelector(state => state.all_category);
+
+  // console.log(categories);
 
   return (
     <>
@@ -24,28 +33,40 @@ const Product = () => {
                       <th>SPrice</th>
                       <th>Category</th>
                       <th>Tag</th>
+                      <th>Photo</th>
                       <th>Action</th>
                   </tr>
               </thead>
               <tbody>
               
-                <tr>
-                    <td></td>
-                    <td>fdsgfdgdfg</td>
-                    <td>555</td>
-                    <td>444</td>
+              {
+                products.map((value, key) => 
+
+                
+
+                  <tr>
+                    <td>{ key + 1 }</td>
+                    <td>{ value.name }</td>
+                    <td>{ value.regular_price }</td>
+                    <td>{ value.sale_price }</td>
                     <td>
-                      gdfgdfg
+                     
                     </td>
                     <td>
-                      dsfdfdsf
+                      
                     </td>
                     <td>
-                      <Link to={ `/admin/product-view/` } className='btn btn-info btn-sm' variant='primary'>view</Link>
-                      <Link to={ `/admin/product-edit/` } className='btn btn-warning btn-sm' variant='warning'>Edit</Link>
-                      <Button onClick="" className='btn-sm' variant='danger'>Delete</Button>
+                      <img style={{width : '30px'}} src={`http://localhost:5050/image/product/${ value.photo }`} alt="" />
+                    </td>
+                    <td>
+                      <Link to={ `/admin/product-view/` } className='btn btn-info btn-sm' variant='primary'><GrView/></Link>
+                      <Link to={ `/admin/product-edit/` } className='btn btn-warning btn-sm' variant='warning'> <GrEdit /> </Link>
+                      <Button onClick="" className='btn btn-sm btn-danger'> <AiFillDelete /> </Button>
                     </td>
                   </tr>
+                )
+              }
+
 
               </tbody>
           </Table>

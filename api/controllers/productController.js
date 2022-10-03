@@ -41,14 +41,15 @@ export const getAllProduct = async (req, res, next) => {
     
     try {
         
-        console.log(req.body);
-        await Product.create({
+        // console.log(req.body);
+        let new_product = await Product.create({
             ...req.body, 
             photo : req.file.filename
         });
 
         res.status(200).json({
-            message : "Product Created"
+            message : "Product Created",
+            product : new_product
         });
 
     } catch (error) {

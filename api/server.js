@@ -28,6 +28,9 @@ app.use(cookieParser());
 app.use(cors());
 
 
+// folder static
+app.use(express.static('api/public'))
+
 
 // rotues
 app.use('/api/students', studentRoute);

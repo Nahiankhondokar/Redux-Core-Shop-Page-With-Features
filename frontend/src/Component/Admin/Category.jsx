@@ -2,8 +2,19 @@ import React, { useState } from 'react';
 import { Card, Table, Button, Container, Row, Col, Form, CloseButton } from 'react-bootstrap';
 import axios from 'axios';
 import { successToaster } from '../Toaster/Toaster';
+import { useDispatch, useSelector } from 'react-redux';
+import { GrView, GrEdit } from "react-icons/gr";
+import { AiFillDelete } from "react-icons/ai";
+import { addCategory } from '../../redux/category/actions';
 
 const Category = () => {
+
+  // get category data from redux
+  const { categories } = useSelector(state => state.all_category);
+  // console.log(dta)
+
+  // dispatch
+  const dispatch = useDispatch();
 
   // category add or edit form show
   const [ catForm, setCatForm ] = useState(false);
@@ -46,6 +57,9 @@ const Category = () => {
         });
 
         successToaster('Category Added Successful');
+
+        // redux update
+        dispatch(addCategory(data.data.cat))
         
       });
 
@@ -74,15 +88,20 @@ const Category = () => {
               </tr>
           </thead>
           <tbody>
-          <tr>
-                <td></td>
-                <td></td>
-                <td></td>
+
+           {
+            categories.map((value, key) => 
+              <tr>
+                <td>{ key + 1 }</td>
+                <td>{ value.name }</td>
+                <td>{ value.slug }</td>
                 <td>
-                  <Button onClick="" className='btn-sm' variant='warning'>Edit</Button>
-                  <Button onClick="" className='btn-sm' variant='danger'>Delete</Button>
+                  <Button onClick="" className='btn-sm' variant='warning'> <GrEdit /> </Button>
+                  <Button onClick="" className='btn-sm' variant='danger'> <AiFillDelete /> </Button>
                 </td>
-              </tr>
+              </tr> 
+            )
+           }
 
           </tbody>
       </Table>

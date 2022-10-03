@@ -3,8 +3,18 @@ import axios from 'axios';
 import { Card, Button, Container, Row, Col, Form } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { successToaster } from '../../Toaster/Toaster';
+import { useDispatch, useSelector } from 'react-redux';
+import { addProduct } from '../../../redux/product/actions';
 
 const AddProduct = () => {
+
+
+  // ger tag & category from redux
+  const { categories } = useSelector(state => state.all_category);
+  const { tags } = useSelector(state => state.all_tag);
+
+  // dispatch
+  const dispatch = useDispatch();
 
   // get all category & tag
   const [allCat, setAllCat] = useState([]);
@@ -75,8 +85,6 @@ const AddProduct = () => {
   const handleFromSubmit = async (e) => {
     e.preventDefault();
 
-
-
     // from data submit by new FormData object for photo upload
     const data = new FormData();
     data.append('name', inputData.name);
@@ -93,6 +101,7 @@ const AddProduct = () => {
     // add product
     await axios.post('http://localhost:5050/api/v1/product', data)
     .then(data => {
+      // console.log(data.data);
 
       // alert msg
       successToaster('Product Added Succssful');
@@ -110,31 +119,12 @@ const AddProduct = () => {
       })
       e.target.reset();
 
+      // redux update
+      dispatch(addProduct(data.data.product));
+
     });
 
   }
-
-
-  // get tags or categories
-  useEffect(() => {
-
-    // get categorys
-    axios.get('http://localhost:5050/api/v1/category')
-    .then(data => {
-
-      setAllCat(data.data.Categorys);
-
-    });
-
-    // get tags
-    axios.get('http://localhost:5050/api/v1/tag')
-    .then(data => {
-
-      setAllTag(data.data.Tags);
-
-    });
-
-  }, []);
 
 
   
@@ -183,7 +173,7 @@ const AddProduct = () => {
                         <select className='form-control' name="category" value={ inputData.category } onChange={ handleInputData } >
                             <option value=""> -select- </option>
                             {
-                              allCat.map((data, key) => 
+                              categories.map((data, key) => 
                                 <option style={{ color : 'black' }} value={ data._id }> { data.name } </option>
                               )
                             }
@@ -194,7 +184,7 @@ const AddProduct = () => {
                         <br />
 
                         {
-                          allTag.map((data, key) => 
+                          tags.map((data, key) => 
                             <>
                             <input type="checkbox" id={data.name} value={data.name} onChange={handleTags} /> <label htmlFor={data.name}>{ data.name }</label> &nbsp;
                             </>

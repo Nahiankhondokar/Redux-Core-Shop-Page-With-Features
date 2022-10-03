@@ -46,13 +46,14 @@ export const getAllCategory = async (req, res, next) => {
     // category create
     try {
         
-        await Category.create({
+        let new_cat = await Category.create({
             ...req.body,
             slug : makeSlug(name)
         });
 
         res.status(200).json({
-            message : "Category Created"
+            message : "Category Created",
+            cat : new_cat
         });
 
     } catch (error) {

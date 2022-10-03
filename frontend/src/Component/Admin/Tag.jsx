@@ -1,10 +1,17 @@
 import React, { useState } from 'react';
 import { Card, Table, Button, Form, Container, Row, Col, CloseButton } from 'react-bootstrap';
 import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+import { addTag } from '../../redux/tag/actions';
 
 const Tag = () => {
 
-  
+  // get category data from redux
+  const { tags } = useSelector(state => state.all_tag);
+
+  // use dispatch
+  const dispatch = useDispatch();
+
   // tag add or edit form show
   const [ tagAddForm, setTagAddForm ] = useState(false);
   // const [ tagEditForm, setTagEditForm ] = useState(false);
@@ -36,6 +43,9 @@ const Tag = () => {
         setInputData({
           name : ''
         });
+
+        // redux update
+        dispatch(addTag(data.data.tag));
         
       });
 
@@ -66,16 +76,22 @@ const Tag = () => {
           </thead>
           <tbody>
 
-            <tr>
-                <td>1</td>
-                <td>dfadsf</td>
-                <td>dsfasdf</td>
-                <td>
-                  <Button onClick='' className='btn-sm' variant='warning'>Edit</Button>
-                  <Button onClick='' className='btn-sm' variant='danger'>Delete</Button>
-                </td>
-              </tr>
+            {
+              tags.map((value, key) =>
+                <tr>
+                  <td>{ key + 1 }</td>
+                  <td>{ value.name }</td>
+                  <td>{ value.slug }</td>
+                  <td>
+                    <Button onClick='' className='btn-sm' variant='warning'>Edit</Button>
+                    <Button onClick='' className='btn-sm' variant='danger'>Delete</Button>
+                  </td>
+                </tr>
 
+              )
+            }
+
+            
           </tbody>
       </Table>
     </Card.Body>

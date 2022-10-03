@@ -46,13 +46,14 @@ export const getAllTag = async (req, res, next) => {
     // Tag create
     try {
         
-        await Tag.create({
+        let new_tag = await Tag.create({
             ...req.body,
             slug : makeSlug(name)
         });
 
         res.status(200).json({
-            message : "Tag Created"
+            message : "Tag Created",
+            tag : new_tag
         });
 
     } catch (error) {
