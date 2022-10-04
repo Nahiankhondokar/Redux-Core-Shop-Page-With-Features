@@ -22,6 +22,10 @@ const ProductSchema = mongoose.Schema({
         type : Number,
     },
     photo : {
+        type : String,
+        default : 'avatar.png'
+    },
+    gallery : {
         type : Array,
         default : []
     },

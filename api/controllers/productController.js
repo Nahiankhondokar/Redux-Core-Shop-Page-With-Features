@@ -38,13 +38,24 @@ export const getAllProduct = async (req, res, next) => {
  *  @method POST
  */
  export const createProduct = async (req, res) => {
-    
+
     try {
+
+        // gallery file upload
+        let gallery = [];
+        for(let i = 0; i < req.files.gallery.length; i++){
+            gallery.push(req.files.gallery[i].filename);
+        }
+        // console.log(gallery);
+        // console.log(req.body.tags)
+
         
-        // console.log(req.body);
+        // product store
         let new_product = await Product.create({
             ...req.body, 
-            photo : req.file.filename
+            photo : req.files.photo[0].filename,
+            gallery : gallery,
+            tags : req.body.tags.split(",")
         });
 
         res.status(200).json({

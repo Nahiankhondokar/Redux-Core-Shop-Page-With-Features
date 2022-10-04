@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Card, Button, Container, Row, Col, Form } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { successToaster } from '../../Toaster/Toaster';
+import { errorToaster, successToaster } from '../../Toaster/Toaster';
 import { useDispatch, useSelector } from 'react-redux';
 import { addProduct } from '../../../redux/product/actions';
 
@@ -22,6 +22,7 @@ const AddProduct = () => {
 
   // input value get
   const [inputData , setInputData] = useState({
+    
     name : '',
     regular_price : '',
     sale_price : '',
@@ -29,7 +30,9 @@ const AddProduct = () => {
     rating : '',
     category : '',
     tags : [],
-    photo : []
+    photo : [],
+    gallery : []
+
   });
 
 
@@ -69,8 +72,6 @@ const AddProduct = () => {
 
   }
 
-
-
   // get photo
   const handlePhotoUpload = (e) => {
 
@@ -81,6 +82,17 @@ const AddProduct = () => {
 
   }
 
+  // get Gallery
+  const handleGalleryUpload = (e) => {
+
+    setInputData((prev) => ({
+      ...prev,
+      gallery : e.target.files
+    }));
+
+  }
+
+    
   // product from submit
   const handleFromSubmit = async (e) => {
     e.preventDefault();
@@ -96,12 +108,14 @@ const AddProduct = () => {
     data.append('tags', inputData.tags);
     data.append('photo', inputData.photo);
 
-    // console.log(data);
+
+    for( let i = 0; i < inputData.gallery.length; i++ ){
+      data.append('gallery', inputData.gallery[i]);
+    }
 
     // add product
     await axios.post('http://localhost:5050/api/v1/product', data)
     .then(data => {
-      // console.log(data.data);
 
       // alert msg
       successToaster('Product Added Succssful');
@@ -115,13 +129,16 @@ const AddProduct = () => {
         rating : '',
         tags : [], 
         category : '',
-        photo : []
+        photo : [],
+        gallery : []
       })
       e.target.reset();
 
       // redux update
       dispatch(addProduct(data.data.product));
 
+    }).catch(() => {
+      errorToaster('Product Added Failed');
     });
 
   }
@@ -198,7 +215,7 @@ const AddProduct = () => {
                     </Form.Group>
                     <Form.Group>
                         <Form.Label>Gallery Photo</Form.Label>
-                        <Form.Control type='file' multiple name='gallery' ></Form.Control>
+                        <Form.Control type='file' multiple name='gallery' onChange={ handleGalleryUpload } ></Form.Control>
                     </Form.Group>
 
                     <Button type='submit' variant='info' className='btn-sm mt-3 text-center'>Add Product</Button>
