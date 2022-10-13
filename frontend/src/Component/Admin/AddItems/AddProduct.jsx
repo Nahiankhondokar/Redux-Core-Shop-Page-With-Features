@@ -30,7 +30,7 @@ const AddProduct = () => {
     rating : '',
     category : '',
     tags : [],
-    photo : [],
+    photo : '',
     gallery : []
 
   });
@@ -108,17 +108,18 @@ const AddProduct = () => {
     data.append('tags', inputData.tags);
     data.append('photo', inputData.photo);
 
-
+    // gallery manage
     for( let i = 0; i < inputData.gallery.length; i++ ){
       data.append('gallery', inputData.gallery[i]);
     }
 
-    // add product
-    await axios.post('http://localhost:5050/api/v1/product', data)
-    .then(data => {
+    // validation 
+    if(!inputData.name || !inputData.regular_price || !inputData.photo){
+      errorToaster('All Fields are required')
+    } else {
 
-      // alert msg
-      successToaster('Product Added Succssful');
+      // add product
+      dispatch(addProduct(data));
 
       // empty feild
       setInputData({
@@ -129,17 +130,14 @@ const AddProduct = () => {
         rating : '',
         tags : [], 
         category : '',
-        photo : [],
+        photo : '',
         gallery : []
       })
       e.target.reset();
 
-      // redux update
-      dispatch(addProduct(data.data.product));
+    }
 
-    }).catch(() => {
-      errorToaster('Product Added Failed');
-    });
+    
 
   }
 

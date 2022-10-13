@@ -1,4 +1,4 @@
-import { ADD_TAG, GET_ALL_TAG } from "./actionType";
+import { ADD_TAG, GET_ALL_TAG, TAG_SUCCESS } from "./actionType";
 import { initialState } from "./intialState";
 
 
@@ -8,7 +8,7 @@ import { initialState } from "./intialState";
 const tagReducer = (state = initialState, { type , payload }) => {
 
     switch (type) {
-        case GET_ALL_TAG:
+        case TAG_SUCCESS:
             return {
                 ...state, 
                 tags : payload

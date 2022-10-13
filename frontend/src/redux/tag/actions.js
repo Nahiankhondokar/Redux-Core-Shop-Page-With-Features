@@ -1,12 +1,13 @@
-import { ADD_TAG, GET_ALL_TAG } from "./actionType"
+import axios from "axios";
+import { ADD_TAG, GET_ALL_TAG, TAG_SUCCESS } from "./actionType"
 
 
 
 // create aciton
-export const getAllTag= (payload) => {
+export const tagSuccess = (payload) => {
 
     return {
-        type : GET_ALL_TAG,
+        type : TAG_SUCCESS,
         payload : payload
     }
 
@@ -21,3 +22,21 @@ export const addTag= (payload) => {
     }
 
 }
+
+
+// action types 
+export const getAllTag = () => async (dispatch) => {
+
+    // get all tag
+    await axios.get('http://localhost:5050/api/v1/tag')
+    .then(res => {
+      
+      // console.log(res.data.Tags);
+      dispatch(tagSuccess(res.data.Tags));
+
+    })
+    .catch(err => {
+      console.log(err.message);
+    });
+
+};

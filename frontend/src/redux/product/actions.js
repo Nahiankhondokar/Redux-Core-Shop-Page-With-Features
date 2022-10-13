@@ -1,4 +1,5 @@
 import axios from "axios";
+import { errorToaster, successToaster } from "../../Component/Toaster/Toaster";
 import { ADD_PRODUCT, GET_ALL_PRODUCT, PRODUCT_REQUEST, PRODUCT_REQUEST_FAIL, PRODUCT_SUCCESS } from "./actionType"
 
 // action types 
@@ -16,6 +17,7 @@ export const productRequest = () => ({
     type : PRODUCT_REQUEST
 });
 
+
 // product request fail
 export const productRequestFail = (payload) => ({
     type : PRODUCT_REQUEST_FAIL, 
@@ -25,18 +27,7 @@ export const productRequestFail = (payload) => ({
 
 
 // action types 
-export const addProduct = (payload) => {
-
-    return {
-        type : ADD_PRODUCT,
-        payload : payload
-    }
-
-}
-
-// action types 
 export const getAllProduct = () => async (dispatch) => {
-
 
     // get all product
     dispatch(productRequest());
@@ -50,30 +41,30 @@ export const getAllProduct = () => async (dispatch) => {
       dispatch(productRequestFail(err.message));
     });
 
-
-    // get all category
-    // axios.get('http://localhost:5050/api/v1/category')
-    // .then(res => {
-      
-    //   // console.log(res.data.Categorys);
-    //   dispatch(getAllCategory(res.data.Categorys));
-
-    // })
-    // .catch(err => {
-    //   console.log(err.message);
-    // });
-
-
-    // get all tag
-    // axios.get('http://localhost:5050/api/v1/tag')
-    // .then(res => {
-      
-    //   // console.log(res.data.Tags);
-    //   dispatch(getAllTag(res.data.Tags));
-
-    // })
-    // .catch(err => {
-    //   console.log(err.message);
-    // });
-
 };
+
+
+// action types 
+export const addProduct = (data) => async (dispatch) => {
+
+    // add product
+    await axios.post('http://localhost:5050/api/v1/product', data)
+    .then(data => {
+
+    // alert msg
+    successToaster('Product Added Succssful');
+
+    // all data get
+    dispatch(getAllProduct());
+
+    }).catch(() => {
+        errorToaster('Product Added Failed');
+    });
+    
+
+}
+
+
+
+
+

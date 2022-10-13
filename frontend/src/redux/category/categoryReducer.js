@@ -1,4 +1,4 @@
-import { ADD_CATEGORY, GET_ALL_CATEGORY } from "./actionType";
+import { ADD_CATEGORY, CATEGORY_SUCCESS, GET_ALL_CATEGORY } from "./actionType";
 import { initialState } from "./intialState";
 
 
@@ -8,7 +8,7 @@ import { initialState } from "./intialState";
 const categoryReducer = (state = initialState, { type , payload }) => {
 
     switch (type) {
-        case GET_ALL_CATEGORY:
+        case CATEGORY_SUCCESS:
             return {
                 ...state, 
                 categories : payload

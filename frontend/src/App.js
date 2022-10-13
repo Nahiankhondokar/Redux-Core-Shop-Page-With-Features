@@ -35,6 +35,8 @@ function App() {
   useEffect(() => {
    
     dispatch(getAllProduct());
+    dispatch(getAllCategory())
+    dispatch(getAllTag());
 
   }, [dispatch]);
   
