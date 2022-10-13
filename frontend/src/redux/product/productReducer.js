@@ -1,4 +1,4 @@
-import { ADD_PRODUCT, GET_ALL_PRODUCT } from "./actionType";
+import { ADD_PRODUCT, GET_ALL_PRODUCT, PRODUCT_REQUEST, PRODUCT_REQUEST_FAIL, PRODUCT_SUCCESS } from "./actionType";
 import { initialState } from "./intialState";
 
 
@@ -7,11 +7,25 @@ import { initialState } from "./intialState";
 const productReducer = (state = initialState, { type , payload }) => {
 
     switch (type) {
-        case GET_ALL_PRODUCT:
+        case PRODUCT_SUCCESS:
             return {
                 ...state, 
-                products : payload
+                products : payload,
+                skeleton : false
             };
+
+        case PRODUCT_REQUEST:
+            return {
+                ...state, 
+                skeleton : true
+            };
+
+        case PRODUCT_REQUEST_FAIL:
+            return {
+                    ...state, 
+                    skeleton : false,
+                    error : payload
+                };
 
         case ADD_PRODUCT:
             return {

@@ -2,5 +2,7 @@
 
 // inital state
 export const initialState = {
-    products : []
+    products : [],
+    skeleton : false,
+    error : ''
 }

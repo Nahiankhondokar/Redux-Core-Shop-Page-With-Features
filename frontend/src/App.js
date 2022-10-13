@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import Footer from './Component/Footer/Footer';
 import Header from './Component/Header/Header';
 import Shop from './Component/Pages/Shop';
@@ -12,17 +13,15 @@ import AddProduct from './Component/Admin/AddItems/AddProduct';
 import ViewProduct from './Component/Admin/AddItems/ViewProduct';
 import EditProduct from './Component/Admin/AddItems/EditProduct';
 import { ToastContainer } from 'react-toastify';
-import { useEffect } from 'react';
-import axios from 'axios';
 import { useDispatch } from 'react-redux';
+import { getAllProduct } from './redux/product/actions';
+import { getAllCategory } from './redux/category/actions';
+import { getAllTag } from './redux/tag/actions';
 import 'react-toastify/dist/ReactToastify.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './_assets/css/bundle.css';
 import './_assets/css/style.css';
 import './App.css';
-import { getAllProduct } from './redux/product/actions';
-import { getAllCategory } from './redux/category/actions';
-import { getAllTag } from './redux/tag/actions';
 
 
 
@@ -34,46 +33,11 @@ function App() {
 
   // get all data
   useEffect(() => {
-    
-    // get all product
-    axios.get('http://localhost:5050/api/v1/product')
-    .then(res => {
-      
-      dispatch(getAllProduct(res.data.products));
+   
+    dispatch(getAllProduct());
 
-    })
-    .catch(err => {
-      console.log(err.message);
-    });
-
-
-    // get all category
-    axios.get('http://localhost:5050/api/v1/category')
-    .then(res => {
-      
-      // console.log(res.data.Categorys);
-      dispatch(getAllCategory(res.data.Categorys));
-
-    })
-    .catch(err => {
-      console.log(err.message);
-    });
-
-
-    // get all tag
-    axios.get('http://localhost:5050/api/v1/tag')
-    .then(res => {
-      
-      // console.log(res.data.Tags);
-      dispatch(getAllTag(res.data.Tags));
-
-    })
-    .catch(err => {
-      console.log(err.message);
-    });
-
-
-  });
+  }, [dispatch]);
+  
 
   return (
     <>
