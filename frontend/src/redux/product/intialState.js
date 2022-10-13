@@ -4,5 +4,6 @@
 export const initialState = {
     products : [],
     skeleton : false,
-    error : ''
+    error : '',
+    singleProduct : {}
 }

@@ -142,8 +142,6 @@ const AddProduct = () => {
   }
 
 
-  
-
   return (
     <>
       <Container>

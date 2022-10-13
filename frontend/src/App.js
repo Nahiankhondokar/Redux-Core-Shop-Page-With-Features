@@ -64,7 +64,7 @@ function App() {
       <Routes>
         <Route path="/" element={ <Home /> } />
         <Route path="/shop" element={ <Shop /> } />
-        <Route path="/shop/:slug" element={ <SingleProduct /> } />
+        <Route path="/shop/:id" element={ <SingleProduct /> } />
 
         {/* Nested Routing */}
         <Route path="/admin" element={ <Dashboard /> }>

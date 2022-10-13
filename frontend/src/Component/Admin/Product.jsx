@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Card, Table, Button, Container, Row, Col, Form } from 'react-bootstrap';
+import { Card, Table, Button, Container, Row, Col, Form, Modal } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
@@ -72,6 +72,7 @@ const Product = () => {
           </Table>
         </Card.Body>
       </Card>
+ 
     </>
   )
 };

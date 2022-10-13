@@ -1,15 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import { Link } from 'react-router-dom';
 import LeftSidebar from '../Partials/LeftSidebar';
 import product from "./../../_assets/images/shop/1.jpg";
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { singleProduct } from '../../redux/product/actions';
 
 const Shop = () => {
 
+  // dispatch
+  const dispatch = useDispatch();
 
   // get all product from redux
   const { products } = useSelector(state => state.all_product);
+
+  // single product view
+  const hanldeViewProduct = (id) => {
+    // e.preventDefault();
+    dispatch(singleProduct(id));
+  }
   
   return (
     <>
@@ -30,7 +39,7 @@ const Shop = () => {
 
                 
                 {
-                  products.map((value, key) => 
+                  products && products.map((value, key) => 
                   
                   <div className="col-md-4 col-sm-6">
                     <div className="shop-product shadow">
@@ -46,9 +55,11 @@ const Shop = () => {
                         <h4 className="upper"><a href="#">{ value.name }</a></h4>
 
                           <span><b>${ value.regular_price } </b></span>
-                            <span><del>${ value.sale_price }</del></span>
-
-                        <div className="save-product"><a href="#"><i className="icon-heart"></i></a>
+                          <span><del>${ value.sale_price }</del></span>
+                          
+                        <div className="save-product">
+                          <a href="#" title='Wish List'><i className="icon-heart"></i></a>
+                          <Link to={`/shop/${value._id}`} title='View' onClick={() => hanldeViewProduct(value._id)}><i className="ti-eye"></i></Link>
                         </div>
                       </div>
                     </div>

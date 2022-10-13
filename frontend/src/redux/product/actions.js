@@ -1,6 +1,6 @@
 import axios from "axios";
 import { errorToaster, successToaster } from "../../Component/Toaster/Toaster";
-import { ADD_PRODUCT, GET_ALL_PRODUCT, PRODUCT_REQUEST, PRODUCT_REQUEST_FAIL, PRODUCT_SUCCESS } from "./actionType"
+import { ADD_PRODUCT, GET_ALL_PRODUCT, PRODUCT_REQUEST, PRODUCT_REQUEST_FAIL, PRODUCT_SUCCESS, SINGLE_PRODUCT } from "./actionType"
 
 // action types 
 export const productSuccess = (payload) => {
@@ -65,6 +65,10 @@ export const addProduct = (data) => async (dispatch) => {
 }
 
 
-
+// single product
+export const singleProduct = (id) => ({
+    type : SINGLE_PRODUCT,
+    payload : id
+});
 
 

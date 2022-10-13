@@ -1,11 +1,16 @@
-import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import Rating from '../Admin/Rating';
-import single1 from './../../_assets/images/shop/single-1.jpg';
+// import single1 from './../../_assets/images/shop/single-1.jpg';
 
 const SingleProduct = () => {
 
+  // single data get from redux 
+  const {id} = useParams();
+  const { singleProduct } = useSelector(state => state.all_product);
+
+  console.log(singleProduct);
   
   return (
     <>
@@ -16,7 +21,7 @@ const SingleProduct = () => {
           <div className="row">
             <div className="col-md-6">
               <div data-options="{&quot;animation&quot;: &quot;slide&quot;, &quot;controlNav&quot;: true}" className="flexslider nav-inside control-nav-dark">
-              <img src={ single1} alt="" />
+              <img src={`http://localhost:5050/image/product/${singleProduct.photo}`} alt="" />
                 {/* <ul className="slides">
                   <li>
                     <img src="images/shop/single-1.jpg" alt="" />
@@ -35,7 +40,7 @@ const SingleProduct = () => {
             </div>
             <div className="col-md-5 col-md-offset-1">
               <div className="title mt-0">
-                <h2>name<span className="red-dot"></span></h2>
+                <h2>{singleProduct.name}<span className="red-dot"></span></h2>
                 <p className="m-0">Free Shipping Worldwide</p>
               </div>
               <div className="single-product-price">
@@ -43,8 +48,8 @@ const SingleProduct = () => {
                   <div className="col-xs-6">
 
                   <h3>
-                    <span><b>$423432</b></span>
-                    <span><del>$43243</del></span>
+                    <span><b>${singleProduct.regular_price}</b></span>
+                    <span><del>${singleProduct.sale_price}</del></span>
                   </h3>
 
                   </div>
@@ -191,7 +196,7 @@ const SingleProduct = () => {
               <div className="shop-product">
                 <div className="product-thumb">
                   <a href="#">
-                    <img src={ single1 } alt="" />
+                    <img src='' alt="" />
                   </a>
                 </div>
                 <div className="product-info">
