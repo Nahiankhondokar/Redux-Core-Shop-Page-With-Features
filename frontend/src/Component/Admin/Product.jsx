@@ -1,20 +1,46 @@
 import React, { useEffect, useState } from 'react';
 import { Card, Table, Button, Container, Row, Col, Form, Modal } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
-import { useSelector } from 'react-redux';
+import swal from 'sweetalert';
+import { useDispatch, useSelector } from 'react-redux';
 import { GrView, GrEdit } from "react-icons/gr";
 import { AiFillDelete } from "react-icons/ai";
+import { deleteProduct, editProduct } from '../../redux/product/actions';
 
 const Product = () => {
 
+  // use dispatch
+  const dispatch = useDispatch();
 
   // user selector
   const { products } = useSelector(state => state.all_product);
   // get category data from redux
   const { categories } = useSelector(state => state.all_category);
-
   // console.log(categories);
+
+  // product delete 
+  const handleDeleteProduct = (id) => {
+    // e.preventDefault();
+
+    swal({
+      title: "Are you sure?",
+      text: "Once deleted, you will not be able to recover this imaginary file!",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    })
+    .then((willDelete) => {
+      if (willDelete) {
+        dispatch(deleteProduct(id));
+      }
+    });
+  }
+
+
+  // product edit 
+  const handleEditProduct = (id) => {
+    dispatch(editProduct(id));
+  }
 
   return (
     <>
@@ -60,8 +86,8 @@ const Product = () => {
                     </td>
                     <td>
                       <Link to={ `/admin/product-view/` } className='btn btn-info btn-sm' variant='primary'><GrView/></Link>
-                      <Link to={ `/admin/product-edit/` } className='btn btn-warning btn-sm' variant='warning'> <GrEdit /> </Link>
-                      <Button onClick="" className='btn btn-sm btn-danger'> <AiFillDelete /> </Button>
+                      <Link to={ `/admin/product-edit/${value._id}` } className='btn btn-warning btn-sm' variant='warning' onClick={(e) => handleEditProduct(value._id)}> <GrEdit /> </Link>
+                      <Button onClick={(e) => handleDeleteProduct(value._id)} className='btn btn-sm btn-danger'> <AiFillDelete /> </Button>
                     </td>
                   </tr>
                 )

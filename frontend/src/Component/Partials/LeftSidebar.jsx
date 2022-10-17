@@ -1,8 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import product from "./../../_assets/images/shop/1.jpg";
 import axios from 'axios';
+import { useSelector } from 'react-redux';
 
 const LeftSidebar = () => {
+
+
+  // ger tag & category from redux
+  const { categories } = useSelector(state => state.all_category);
+  const { tags } = useSelector(state => state.all_tag);
 
  
   return (
@@ -19,26 +25,18 @@ const LeftSidebar = () => {
                 <h6 className="upper">Categories</h6>
                 <ul className="nav">
 
-                  <div className="form-check">
-                    <input className="form-checkbox" type="checkbox" value="men" id="men" /> &nbsp;
-                    <label className="form-check-label" for="men" style={{ fontSize : "13px", fontWeight: "normal" }}>
-                    Men
-                    </label>
-                  </div>
+                  {
+                    categories.map((data, index) => 
+                    <div className="form-check">
+                      <input className="form-checkbox" type="checkbox" value={data._id} id="men" /> &nbsp;
+                      <label className="form-check-label" for="men" style={{ fontSize : "13px", fontWeight: "normal" }}>
+                      {data.name}
+                      </label>
+                    </div>
+                    )
+                  }
 
-                  <div className="form-check">
-                    <input className="form-checkbox" type="checkbox" value="women" id="women" /> &nbsp;
-                    <label className="form-check-label" for="women" style={{ fontSize : "13px", fontWeight: "normal" }}>
-                    Women
-                    </label>
-                  </div>
-
-                  <div className="form-check">
-                    <input className="form-checkbox" type="checkbox" value="" id="kids" /> &nbsp;
-                    <label className="form-check-label" for="kids" style={{ fontSize : "13px", fontWeight: "normal" }}>
-                    Kids
-                    </label>
-                  </div>
+                  
                   
                 </ul>
               </div>
@@ -47,7 +45,12 @@ const LeftSidebar = () => {
                 <h6 className="upper">Popular Tags</h6>
                 <div className="tags clearfix">
 
-                <a onClick='' href='' >tags</a>
+                  {
+                    tags.map((data, index) => 
+                      <a onClick='' href='' >{data.name}</a>
+                    )
+                  }
+                
 
                 </div>
               </div>

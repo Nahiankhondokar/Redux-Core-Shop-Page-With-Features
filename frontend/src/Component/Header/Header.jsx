@@ -1,65 +1,65 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import Logo from "./../../_assets/images/logo_dark.png";
 import banner from "./../../_assets/images/bg/19.jpg";
 
 
 
-const Header = () => {
+const Header = ({setProgress}) => {
   return (
     <>
         <header id="topnav" className='shadow'>
         <div className="container">
         
             <div className="logo">
-            <a href="index-2.html">
-                <img src={ Logo } alt="" className="logo-light"/>
-            </a>
+                <a href="index-2.html">
+                    <img src={ Logo } alt="" className="logo-light"/>
+                </a>
             </div>
     
             <div className="menu-extras">
-            <div className="menu-item">
-            
-                <div className="cart">
-                <a href="#">
-                    <i className="ti-bag"></i><span className="cart-number">2</span>
-                </a>
-                <div className="shopping-cart">
-                    <div className="shopping-cart-info">
-                    <div className="row">
-                        <div className="col-xs-6">
-                        <h6 className="upper">Your Cart</h6>
+                <div className="menu-item">
+                
+                    <div className="cart">
+                    <a href="#">
+                        <i className="ti-bag"></i><span className="cart-number">2</span>
+                    </a>
+                    <div className="shopping-cart">
+                        <div className="shopping-cart-info">
+                        <div className="row">
+                            <div className="col-xs-6">
+                            <h6 className="upper">Your Cart</h6>
+                            </div>
+                            <div className="col-xs-6 text-right">
+                            <h6 className="upper">$399.99</h6>
+                            </div>
                         </div>
-                        <div className="col-xs-6 text-right">
-                        <h6 className="upper">$399.99</h6>
+                    
                         </div>
+                        <ul className="nav product-list">
+                        <li>
+                            <div className="product-thumbnail">
+                            <img src="images/shop/2.jpg" alt=""/>
+                            </div>
+                            <div className="product-summary">
+                            <a href="#">Premium Suit Blazer</a><span>$199.99</span>
+                            </div>
+                        </li>
+                        <li>
+                            <div className="product-thumbnail">
+                            <img src="images/shop/5.jpg" alt=""/>
+                            </div>
+                            <div className="product-summary">
+                            <a href="#">Reiss Vara Tailored Blazer</a><span>$199.99</span>
+                            </div>
+                        </li>
+                        </ul>
+                        <p><a href="#" className="btn btn-color btn-block btn-sm">Checkout</a>
+                        </p>
+                    </div>
                     </div>
                 
-                    </div>
-                    <ul className="nav product-list">
-                    <li>
-                        <div className="product-thumbnail">
-                        <img src="images/shop/2.jpg" alt=""/>
-                        </div>
-                        <div className="product-summary">
-                        <a href="#">Premium Suit Blazer</a><span>$199.99</span>
-                        </div>
-                    </li>
-                    <li>
-                        <div className="product-thumbnail">
-                        <img src="images/shop/5.jpg" alt=""/>
-                        </div>
-                        <div className="product-summary">
-                        <a href="#">Reiss Vara Tailored Blazer</a><span>$199.99</span>
-                        </div>
-                    </li>
-                    </ul>
-                    <p><a href="#" className="btn btn-color btn-block btn-sm">Checkout</a>
-                    </p>
                 </div>
-                </div>
-            
-            </div>
             <div className="menu-item">
             
                 <div className="search">
@@ -100,7 +100,7 @@ const Header = () => {
                         <Link to='/shop'>Shop</Link>
                     </li>
                     <li >
-                        <a href="#">Blog</a>
+                        <Link to="/blog">Blog</Link>
                     </li>
                     <li >
                         <Link to='/admin'>Dashboard</Link>

@@ -14,12 +14,29 @@ const Tag = () => {
 
   // tag add or edit form show
   const [ tagAddForm, setTagAddForm ] = useState(false);
-  // const [ tagEditForm, setTagEditForm ] = useState(false);
+  const [ tagEditForm, setTagEditForm ] = useState(false);
+
+  // get tag edit data
+  const [ editData, setEditData ] = useState({
+    name : '',
+    slug : ''
+  });
+  
 
   // tag addd from show
   const handleTagForm = (e) => {
     e.preventDefault();
     setTagAddForm(true);
+    setTagEditForm(false);
+  }
+
+  // tag edit from show
+  const handleTagEdit = (id) => {
+    const tag = tags.find(item => item._id == id);
+    // console.log(editCat);
+    setEditData(tag);
+    setTagEditForm(true);
+    setTagAddForm(false);
   }
 
   // input data get 
@@ -55,114 +72,106 @@ const Tag = () => {
 
   }
 
+  // tag update 
+  const handleTagUpdate = (e, id) => {
+     e.preventDefault();
+
+     dispatch(updateTag(id, editData));
+
+  }
 
 
   return (
     <>
-    <a href="#" className='btn btn-primary btn-sm mb-2' onClick={ handleTagForm } variant='info'>Add Tag</a>
-    <Card>
-    <Card.Header>
-      <h3 className='text-center'>All Tags</h3>
-    </Card.Header>
-    <Card.Body className='student-table shadow'>
-        <Table>
-          <thead>
-              <tr>
-                  <th>#</th>
-                  <th>Tag Name</th>
-                  <th>Slug</th>
-                  <th>Action</th>
-              </tr>
-          </thead>
-          <tbody>
-
-            {
-              tags.map((value, key) =>
-                <tr>
-                  <td>{ key + 1 }</td>
-                  <td>{ value.name }</td>
-                  <td>{ value.slug }</td>
-                  <td>
-                    <Button onClick='' className='btn-sm' variant='warning'>Edit</Button>
-                    <Button onClick='' className='btn-sm' variant='danger'>Delete</Button>
-                  </td>
-                </tr>
-
-              )
-            }
-
-            
-          </tbody>
-      </Table>
-    </Card.Body>
-
     
-    </Card>
+    <Row>
+      <Col md={8}>
+      <a href="#" className='btn btn-primary btn-sm mb-2' onClick={ handleTagForm } variant='info'>Add Tag</a>
+      <Card>
+        <Card.Header>
+          <h3 className='text-center'>All Tags</h3>
+        </Card.Header>
+        <Card.Body className='student-table shadow'>
+            <Table>
+              <thead>
+                  <tr>
+                      <th>#</th>
+                      <th>Tag Name</th>
+                      <th>Slug</th>
+                      <th>Action</th>
+                  </tr>
+              </thead>
+              <tbody>
 
+                {
+                  tags.map((value, key) =>
+                    <tr>
+                      <td>{ key + 1 }</td>
+                      <td>{ value.name }</td>
+                      <td>{ value.slug }</td>
+                      <td>
+                        <Button onClick={() => handleTagEdit(value._id)} className='btn-sm' variant='warning'>Edit</Button>
+                        <Button onClick='' className='btn-sm' variant='danger'>Delete</Button>
+                      </td>
+                    </tr>
 
-    {/* Tag Add Form */}
+                  )
+                }
 
-    {
+                
+              </tbody>
+          </Table>
+        </Card.Body>
+      </Card>
+      </Col>
       
-      tagAddForm && 
-      <Container>
-        <Row>
-          <Col md={ 4 } className='mt-3'>
-            <Card className='shadow p-3'>
-              <div className="editTag">
-              <CloseButton onClick={() => setTagAddForm(false)}></CloseButton>
-                <h4 className='mt-2 text-center'>Add Tag</h4>
-                  <Form onSubmit={ handleTagSubmit } method='POST'>
-                  
-                    <Form.Group>
-                        <Form.Label>Tag Name</Form.Label>
-                        <Form.Control value={ inputData.name } onChange={ (e) => setInputData({ name : e.target.value }) } ></Form.Control>
-                    </Form.Group>
-              
-                    <Button type='submit' variant='info' className='btn-sm mt-3 text-center'>Add Tag</Button>
-              
-                  </Form>
-            
-              </div>
-            </Card>
-          </Col>
-        </Row>
-      </Container>
-          
-    }
-
-
-    {/* Tag Edit Form */}
-{/* 
-    {
-      tagEditForm && 
-    <Container>
-      <Row>
-        <Col md={ 6 } className='m-auto mt-3'>
+      {
+        tagAddForm && 
+        <Col md={ 4 } className='mt-3'>
           <Card className='shadow p-3'>
             <div className="editTag">
-              <h2 className='mt-2 text-center'>Edti Tag</h2>
-                <hr />
-                <Form onSubmit="" method='POST'>
-            
+            <CloseButton onClick={() => setTagAddForm(false)}></CloseButton>
+              <h4 className='mt-2 text-center'>Add Tag</h4>
+                <Form onSubmit={ handleTagSubmit } method='POST'>
+                
                   <Form.Group>
                       <Form.Label>Tag Name</Form.Label>
-                      <Form.Control value=''></Form.Control>
+                      <Form.Control value={ inputData.name } onChange={ (e) => setInputData({ name : e.target.value }) } ></Form.Control>
                   </Form.Group>
-
-                  <Form.Group>
-                      <Form.Control type='hidden' value=''></Form.Control>
-                  </Form.Group>
-
-                  <Button type='submit' variant='info' className='btn-sm mt-3 text-center'>Update Tag</Button>
-
+            
+                  <Button type='submit' variant='info' className='btn-sm mt-3 text-center'>Add Tag</Button>
+            
                 </Form>
+          
             </div>
           </Card>
         </Col>
-      </Row>
-    </Container>
-    } */}
+      }
+
+      {
+        tagEditForm && 
+        <Col md={ 4 } className='mt-3'>
+          <Card className='shadow p-3'>
+            <div className="editTag">
+            <CloseButton onClick={() => setTagAddForm(false)}></CloseButton>
+              <h4 className='mt-2 text-center'>Edit Tag</h4>
+                <Form onSubmit={ (e) => handleTagUpdate(e, editData._id) } method='POST'>
+                
+                  <Form.Group>
+                      <Form.Label>Tag Name</Form.Label>
+                      <Form.Control value={ editData.name } onChange={ (e) => setInputData({ name : e.target.value }) } ></Form.Control>
+                  </Form.Group>
+            
+                  <Button type='submit' variant='info' className='btn-sm mt-3 text-center'>Update Tag</Button>
+            
+                </Form>
+          
+            </div>
+          </Card>
+        </Col>
+      }
+      
+    </Row>
 
     </>
   )

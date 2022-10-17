@@ -1,7 +1,7 @@
 import express from 'express';
 import multer from 'multer';
 import path, { resolve } from 'path';
-import { createProduct, getAllProduct, getSingleProduct, productDelete, productUpdate } from '../controllers/productController.js';
+import { categoryWiseSearch, createProduct, getAllProduct, getSingleProduct, productDelete, productUpdate } from '../controllers/productController.js';
 
 
 
@@ -41,8 +41,9 @@ const productMulter = multer({
 router.get('/', getAllProduct);
 router.post('/', productMulter, createProduct);
 router.get('/:id', getSingleProduct);
+router.get('/search/category/:id', categoryWiseSearch);
 router.put('/:id',productUpdate);
-router.delete('/:id',productDelete);
+router.delete('/:id',productDelete)
 
 
 

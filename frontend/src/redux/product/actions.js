@@ -1,6 +1,6 @@
 import axios from "axios";
 import { errorToaster, successToaster } from "../../Component/Toaster/Toaster";
-import { ADD_PRODUCT, GET_ALL_PRODUCT, PRODUCT_REQUEST, PRODUCT_REQUEST_FAIL, PRODUCT_SUCCESS, SINGLE_PRODUCT } from "./actionType"
+import { ADD_PRODUCT, DELETE_PRODUCT, EDIT_PRODUCT, PRODUCT_REQUEST, PRODUCT_REQUEST_FAIL, PRODUCT_SUCCESS, SINGLE_PRODUCT, UPDATE_PRODUCT } from "./actionType"
 
 // action types 
 export const productSuccess = (payload) => {
@@ -70,5 +70,58 @@ export const singleProduct = (id) => ({
     type : SINGLE_PRODUCT,
     payload : id
 });
+
+
+// product delete
+export const deleteProduct = (id) => async (dispatch) => {
+
+    // add product
+    await axios.delete(`http://localhost:5050/api/v1/product/${id}`)
+    .then(data => {
+
+        // state update
+        dispatch({
+            type : DELETE_PRODUCT,
+            payload : id
+        });
+
+        // alert msg
+        successToaster('Product Deleted Succssful');
+
+    }).catch(() => {
+        errorToaster('Product Added Failed');
+    });
+    
+
+}
+
+
+// product eddit
+export const editProduct = (id) => {
+    return {
+        type : EDIT_PRODUCT,
+        payload : id
+    }
+}
+
+// product update
+export const updateProduct = (id, data) => async (dispatch) => {
+
+    // add product
+    await axios.put(`http://localhost:5050/api/v1/product/${id}`, data)
+    .then(data => {
+        
+        // state update
+        dispatch(getAllProduct());
+
+        // alert msg
+        successToaster('Product Updated Succssful');
+
+    }).catch(() => {
+        errorToaster('Product Added Failed');
+    });
+    
+
+}
 
 

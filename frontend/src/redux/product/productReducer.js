@@ -1,4 +1,4 @@
-import { ADD_PRODUCT, GET_ALL_PRODUCT, PRODUCT_REQUEST, PRODUCT_REQUEST_FAIL, PRODUCT_SUCCESS, SINGLE_PRODUCT } from "./actionType";
+import { ADD_PRODUCT, DELETE_PRODUCT, EDIT_PRODUCT, GET_ALL_PRODUCT, PRODUCT_REQUEST, PRODUCT_REQUEST_FAIL, PRODUCT_SUCCESS, SINGLE_PRODUCT, UPDATE_PRODUCT } from "./actionType";
 import { initialState } from "./intialState";
 
 
@@ -42,6 +42,25 @@ const productReducer = (state = initialState, { type , payload }) => {
                 ...state, 
                 singleProduct : state.products.find(item => item._id === payload)
             };
+
+        case DELETE_PRODUCT:
+            return {
+                ...state, 
+                products : state.products.filter(item => item._id !== payload)
+            };
+
+
+        case EDIT_PRODUCT:
+            return {
+                ...state, 
+                editProduct : state.products.find(item => item._id === payload)
+            };
+
+        // case UPDATE_PRODUCT:
+        //     return {
+        //         ...state, 
+        //         editProduct : state.products.find(item => item._id === payload)
+        //     };
 
         default:
             return state;

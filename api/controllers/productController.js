@@ -114,7 +114,7 @@ export const getAllProduct = async (req, res, next) => {
     const { id } = req.params;
 
     try {
-        const update = await Product.findByIdAndUpdate(id, {
+        await Product.findByIdAndUpdate(id, {
            ...req.body 
         });
 
@@ -143,6 +143,29 @@ export const getAllProduct = async (req, res, next) => {
         await Product.findByIdAndDelete(id);
         res.status(200).json({
             message : "product deleted"
+        });
+    } catch (error) {
+        console.log(error.message);
+    }
+
+}
+
+
+/**
+ *  @access Public
+ *  @route api/products/:id
+ *  @method DELETE
+ */
+ export const categoryWiseSearch = async (req, res) => {
+
+    // get id
+    const { id } = req.params;
+    
+    try {
+        let product = await Product.find().equals({categories : id});
+        res.status(200).json({
+            message : "product deleted",
+            product : product
         });
     } catch (error) {
         console.log(error.message);

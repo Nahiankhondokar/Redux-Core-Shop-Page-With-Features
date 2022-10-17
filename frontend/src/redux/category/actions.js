@@ -41,3 +41,23 @@ export const getAllCategory = () => async (dispatch) => {
     });
 
 };
+
+
+
+// category update
+export const updateCategory = (id, data) => async (dispatch) => {
+
+    // get all category
+    await axios.put(`http://localhost:5050/api/v1/category/${id}`, data)
+    .then(res => {
+      
+      // console.log(res.data.Categorys);
+      dispatch(getAllCategory());
+
+    })
+    .catch(err => {
+      console.log(err.message);
+    });
+
+};
+

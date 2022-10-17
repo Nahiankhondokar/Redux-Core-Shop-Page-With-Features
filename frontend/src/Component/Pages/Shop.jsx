@@ -12,7 +12,7 @@ const Shop = () => {
   const dispatch = useDispatch();
 
   // get all product from redux
-  const { products } = useSelector(state => state.all_product);
+  const { products, skeleton } = useSelector(state => state.all_product);
 
   // single product view
   const hanldeViewProduct = (id) => {
@@ -39,59 +39,56 @@ const Shop = () => {
 
                 
                 {
-                  products && products.map((value, key) => 
+                    products && products.map((value, key) => 
                   
-                  <div className="col-md-4 col-sm-6">
-                    <div className="shop-product shadow">
-                      <div className="product-thumb">
-                        <Link to={ `/shop/` }>
-                          <img style={{ height : '250px', width : '100%', objectFit : 'cover'}} src={ `http://localhost:5050/image/product/${ value.photo }` } alt="" />
-                        </Link>
-                        <div className="product-overlay">
-                          <a href="#" className="btn btn-color-out btn-sm">Add To Cart<i className="ti-bag"></i></a>
-                        </div>
-                      </div>
-                      <div className="product-info p-3">
-                        <h4 className="upper"><a href="#">{ value.name }</a></h4>
+                      <div className="col-md-4 col-sm-6">
+                        <div className="shop-product shadow">
+                          <div className="product-thumb">
+                            <Link to={ `/shop/` }>
+                              <img style={{ height : '250px', width : '100%', objectFit : 'cover'}} src={ `http://localhost:5050/image/product/${ value.photo }` } alt="" />
+                            </Link>
+                            <div className="product-overlay">
+                              <a href="#" className="btn btn-color-out btn-sm">Add To Cart<i className="ti-bag"></i></a>
+                            </div>
+                          </div>
+                          <div className="product-info p-3">
+                            <h4 className="upper"><a href="#">{ value.name }</a></h4>
 
-                          <span><b>${ value.regular_price } </b></span>
-                          <span><del>${ value.sale_price }</del></span>
-                          
-                        <div className="save-product">
-                          <a href="#" title='Wish List'><i className="icon-heart"></i></a>
-                          <Link to={`/shop/${value._id}`} title='View' onClick={() => hanldeViewProduct(value._id)}><i className="ti-eye"></i></Link>
+                              <span><b>${ value.regular_price } </b></span>
+                              <span><del>${ value.sale_price }</del></span>
+                              
+                            <div className="save-product">
+                              <a href="#" title='Wish List'><i className="icon-heart"></i></a>
+                              <Link to={`/shop/${value._id}`} title='View' onClick={() => hanldeViewProduct(value._id)}><i className="ti-eye"></i></Link>
+                            </div>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </div>
                   
-                  )
+                    )
                 }
-
                 
-                  
-                  
-                  {/* <>
-
+                {
+                    skeleton && <>
+                    <div className="col-md-4 col-sm-6">
+                    <Skeleton width='250px' height='350px' />
+                    <Skeleton width='150px' height='18px' />
+                    <Skeleton width='100px' height='18px' />
+                  </div> 
+  
                   <div className="col-md-4 col-sm-6">
                     <Skeleton width='250px' height='350px' />
                     <Skeleton width='150px' height='18px' />
                     <Skeleton width='100px' height='18px' />
                   </div> 
-
+  
                   <div className="col-md-4 col-sm-6">
                     <Skeleton width='250px' height='350px' />
                     <Skeleton width='150px' height='18px' />
                     <Skeleton width='100px' height='18px' />
                   </div> 
-
-                  <div className="col-md-4 col-sm-6">
-                    <Skeleton width='250px' height='350px' />
-                    <Skeleton width='150px' height='18px' />
-                    <Skeleton width='100px' height='18px' />
-                  </div> 
-
-                  </> */}
+                  </>
+                }
                   
              
 
