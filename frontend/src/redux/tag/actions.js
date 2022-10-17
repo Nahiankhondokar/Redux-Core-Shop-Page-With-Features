@@ -45,7 +45,7 @@ export const getAllTag = () => async (dispatch) => {
 export const updateTag = (id, data) => async (dispatch) => {
 
     // get all tag
-    await axios.get(`http://localhost:5050/api/v1/tag/${id}`, data)
+    await axios.put(`http://localhost:5050/api/v1/tag/${id}`, data)
     .then(res => {
       
       // console.log(res.data.Tags);

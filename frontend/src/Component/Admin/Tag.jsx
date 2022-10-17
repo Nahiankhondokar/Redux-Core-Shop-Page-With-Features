@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { Card, Table, Button, Form, Container, Row, Col, CloseButton } from 'react-bootstrap';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
-import { addTag } from '../../redux/tag/actions';
+import { addTag, updateTag } from '../../redux/tag/actions';
+import { successToaster } from '../Toaster/Toaster';
 
 const Tag = () => {
 
@@ -19,13 +20,15 @@ const Tag = () => {
   // get tag edit data
   const [ editData, setEditData ] = useState({
     name : '',
-    slug : ''
+    id   : ''
   });
   
+  // console.log(editData._id);
 
   // tag addd from show
   const handleTagForm = (e) => {
     e.preventDefault();
+
     setTagAddForm(true);
     setTagEditForm(false);
   }
@@ -33,7 +36,7 @@ const Tag = () => {
   // tag edit from show
   const handleTagEdit = (id) => {
     const tag = tags.find(item => item._id == id);
-    // console.log(editCat);
+    // console.log(tag);
     setEditData(tag);
     setTagEditForm(true);
     setTagAddForm(false);
@@ -41,9 +44,7 @@ const Tag = () => {
 
   // input data get 
   const [inputData, setInputData] = useState({
-    name : '',
-    slug : '',
-    photo : ''
+    name : ''
   });
 
 
@@ -76,7 +77,14 @@ const Tag = () => {
   const handleTagUpdate = (e, id) => {
      e.preventDefault();
 
+     console.log(editData);
+
      dispatch(updateTag(id, editData));
+     successToaster('Tag Updated');
+     setEditData({
+       name : ''
+     });
+     setTagEditForm(false);
 
   }
 
@@ -153,13 +161,13 @@ const Tag = () => {
         <Col md={ 4 } className='mt-3'>
           <Card className='shadow p-3'>
             <div className="editTag">
-            <CloseButton onClick={() => setTagAddForm(false)}></CloseButton>
+            <CloseButton onClick={() => setTagEditForm(false)}></CloseButton>
               <h4 className='mt-2 text-center'>Edit Tag</h4>
-                <Form onSubmit={ (e) => handleTagUpdate(e, editData._id) } method='POST'>
+                <Form onSubmit={ (e) => handleTagUpdate(e, editData._id) } method="POST">
                 
                   <Form.Group>
                       <Form.Label>Tag Name</Form.Label>
-                      <Form.Control value={ editData.name } onChange={ (e) => setInputData({ name : e.target.value }) } ></Form.Control>
+                      <Form.Control value={ editData.name } onChange={ (e) => setEditData({...editData, name : e.target.value }) } ></Form.Control>
                   </Form.Group>
             
                   <Button type='submit' variant='info' className='btn-sm mt-3 text-center'>Update Tag</Button>
